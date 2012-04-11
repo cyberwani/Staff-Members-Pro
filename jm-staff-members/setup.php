@@ -16,12 +16,33 @@ Author URI: http://www.jackmahoney.co.nz/
 	function jm_staff_add_stylesheet() {
         wp_register_style( 'jm-staff-style', plugins_url('style.css', __FILE__) );
         wp_enqueue_style( 'jm-staff-style' );
+		wp_enqueue_script(
+		'masonry',
+		plugins_url('masonry.js',__FILE__),
+		array('jquery')
+		);
+		wp_enqueue_script(
+		'jm-staff-masonry',
+		plugins_url('jm-staff-masonry.js', __FILE__),
+		array('masonry')
+		);
     }
+	
+/**------------------------------------
+ *     Add options page
+ -------------------------------------*/
+add_action('admin_menu', 'jm_staff_plugin_menu');
+
+function jm_staff_plugin_menu() {
+	 add_settings_section('jm_staff_settings', 'Staff Member Settings', '', '' );
+}
 /**------------------------------------
  *     Declare relevant variables
  -------------------------------------*/
-define( 'JM_STAFF_FILE_PATH', dirname( __FILE__ ) );
+define( 'JM_STAFF_FILE_PATH', plugins_url( __FILE__ ) );
 include_once($JM_STAFF_FILE_PATH."staff-member.class.php");
+include_once($JM_STAFF_FILE_PATH."dbhelper.class.php");
+include_once($JM_STAFF_FILE_PATH."shortcodes.php");
 /**
  * add thumbnail sizes
  */
@@ -55,7 +76,7 @@ function jm_staff_register() {
 		'publicly_queryable' => true,
 		'show_ui' => true, 
 		'query_var' => true, 
-		'menu_icon' => $JM_STAFF_FILE_PATH.'/res/staff.png',
+		'menu_icon' => plugins_url('/res/staff.png', __FILE__ ),
 		'rewrite' => true,
 		'capability_type' => 'post',
 		'hierarchical' => false,
@@ -148,7 +169,7 @@ function jm_staff_save_meta(){
 /**------------------------------------
  *     Define the template files
  -------------------------------------*/  
-function jm_staff_post_type_template($single_template) {
+function jm_staff_post_type_single_template($single_template) {
      global $post;
 
      if ($post->post_type == 'staff-member') {
@@ -156,6 +177,15 @@ function jm_staff_post_type_template($single_template) {
      }
      return $single_template;
 }
+function jm_staff_post_type_archive_template($archive_template) {
+     global $post;
 
-add_filter( "single_template", "jm_staff_post_type_template" ) ;
+     if ($post->post_type == 'staff-member') {
+          $archive_template = dirname( __FILE__ ) . '/archive-staff-member.php';
+     }
+     return $archive_template;
+}
+
+add_filter( "single_template", "jm_staff_post_type_single_template" ) ;
+add_filter( "single_template", "jm_staff_post_type_archive_template" ) ;
 ?>

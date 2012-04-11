@@ -8,10 +8,12 @@
 .staff-member-sidebar {
 	display: inline-block;
 	width: 20%;
+	vertical-align: top;
 }
 .staff-member-content {
 	display: inline-block;
 	width:60%;	
+	vertical-align: top;
 }
 .staff-member-contact .label,
 .staff-member-contact .meta{
@@ -22,4 +24,13 @@
 	padding-right: 10px;
 }
 .staff-member-contact .meta {
+}
+.staff-item{
+	display:inline-block;
+	margin: 0px 20px 20px 0px; 
+	padding: 4px 6px;
+	background: #EEE;
+	box-shadow: 0px 2px 3px #ddd;
+	-moz-box-shadow: 0px 2px 3px #ddd;
+	-webkit-box-shadow: 0px 2px 3px #ddd;
 }

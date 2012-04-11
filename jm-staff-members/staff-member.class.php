@@ -5,20 +5,28 @@
  -----------------------------*/
 class jm_staff_member{
 	
-	//define fields
+	/**
+	 * define fields
+	 */
 	public $post;
 	public $ID;
-	public $content; 
+	public $content;
+	public $permalink; 
 	public $thumbnail;
-	
+	public $title;
 	public $home;
 	public $work;
 	public $mobile;
 	public $email;
-	//constructor		
+	
+	/**
+	 * constructor
+	 */		
 	public function __construct($the_post){
 		$this->post = $the_post;
 		$this->ID = $this->post->ID;
+		$this->permalink = get_permalink($this->ID);
+		$this->title = get_the_title($this->ID);
 		$this->content = $this->post->post_content;
 		$this->thumbnail = get_the_post_thumbnail($this->ID, 'jm-staff-thumbnail');
 		//get meta
@@ -30,9 +38,11 @@ class jm_staff_member{
 							  
 	}
 	 
-	//create sidebar with thumbnail and meta	
+	/**
+	 * create sidebar with thumbnail and meta
+	 */	 
 	public function getSidebar(){
-		echo $this->thumbnail;
+		echo "<a href='$this->permalink' title='View Staff Member'>$this->thumbnail</a>";
 		echo "<table class='staff-member-contact'>";
 			$this->makeRow("Work",$this->work);
 			$this->makeRow("Home",$this->home);
@@ -40,7 +50,10 @@ class jm_staff_member{
 			$this->makeRow("Email",$this->email); 
 		echo "</table>";
 	}
-	//make a row if meta not empty
+	
+	/**
+	 * make a row if meta not empty
+	 */
 	private function makeRow($label, $custom){
 		if($custom != '' or $custom != null)
 		echo "
@@ -50,9 +63,43 @@ class jm_staff_member{
 			</tr>
 		";
 	}
-	//get content 
+	
+	/**
+	 * get content
+	 */ 
 	public function getContent(){
 		echo $this->content;
+	}
+	
+	/**
+	 * echo the title in h1 tags
+	 */
+	public function getTitle(){
+		echo "<h1 class='staff-member-title'><a href ='$this->permalink' title='View Staff Member'>$this->title</a></h1>";
+	}
+	
+	/**
+	 * make an excerpt for the listview display
+	 */
+	public function makeListView(){
+		echo "
+		<tr>
+			<td>";
+			$this->getTitle(); 
+			$this->getSidebar();
+			echo "</td>
+		</tr> 
+		";
+	}
+	
+	/**
+	 * make an excerpt for the listview display
+	 */
+	public function makeGridView(){
+		echo "<div class='staff-item'>";
+			$this->getTitle();
+			$this->getSidebar();
+		echo "</div>";
 	}
 	
 	
