@@ -1,0 +1,25 @@
+/**
+ * 	Style for the staff-member post type display
+ */
+.staff-member-wrapper {
+	position: relative;
+	width: 100%;
+}
+.staff-member-sidebar {
+	display: inline-block;
+	width: 20%;
+}
+.staff-member-content {
+	display: inline-block;
+	width:60%;	
+}
+.staff-member-contact .label,
+.staff-member-contact .meta{
+	font-size:11px;
+}
+.staff-member-contact .label {
+	font-weight: bold;
+	padding-right: 10px;
+}
+.staff-member-contact .meta {
+}
