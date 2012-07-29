@@ -19,6 +19,9 @@ $jmsmp_meta['contact'] = new WPAlchemy_MetaBox(array
 	'title' => 'Contact Details',
 	'template' =>  JMSMP_DIR . '/metaboxes/contact-meta.php',
 	'types' => array('staff-member'),
-	'context' => 'side',
-	'priority' => 'high'
+	'context' => 'normal',
+	'priority' => 'high',
+	'autosave' => 'true',
+	'lock' => WPALCHEMY_LOCK_AFTER_POST_TITLE,
+	'view' => WPALCHEMY_VIEW_ALWAYS_OPENED 
 ));

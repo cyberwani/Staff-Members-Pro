@@ -1,9 +1,50 @@
-body .jmsmp_metabox input.big{
-	background-color: white;
-	border-color: #CCC;
-	padding: 3px 8px;
-	font-size: 1.7em;
-	line-height: 100%;
-	width: 100%;
-	outline: 0;
+body .staff-member .col {
+display: inline;
+float: left;
 }
+
+body .staff-member .col.left{
+	margin:0px;
+	float:left;
+	width:25%;
+}
+body .staff-member .col.right{
+	float:left;
+	margin:0px;
+	width:75%;
+}
+body .staff-member .col.right .inner{
+	padding-left:20px;
+}
+body .staff-member .thumbnail img {
+padding: 2PX;
+background: white;
+border: 1px solid #CCC;
+margin: 0px;
+box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.1);
+max-width:100%;	
+}
+body .staff-member .thumbnail {
+	margin-bottom:10px;
+}
+
+body .staff-member table{
+	width:100%;
+	border:0px;
+	margin:20px 0px 0px 0px;
+	
+}
+body .staff-member .contact-table tr,
+body .staff-member .contact-table td,
+body .staff-member .contact-table table
+{
+	border:0px;
+	padding: 0px;
+	vertical-align:middle;
+	text-align:left;
+}
+.staff-member table .label {
+text-transform: uppercase;
+font-weight: bold;
+font-size: .8em;
+	}

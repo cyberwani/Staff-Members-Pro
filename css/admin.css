@@ -1,0 +1,17 @@
+body .jmsmp_metabox input.big{
+	background-color: white;
+	border-color: #CCC;
+	padding: 3px 8px;
+	font-size: 1.7em;
+	line-height: 100%;
+	width: 80%;
+	outline: 0;
+}
+body .jmsmp_metabox select {
+	padding: 3px 8px;
+	display: inline;
+}
+body .jmsmp_metabox label{
+	width:100px;
+	display:inline-block;
+}

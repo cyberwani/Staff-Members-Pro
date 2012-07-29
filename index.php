@@ -19,6 +19,16 @@ if (!class_exists( 'WPAlchemy_MetaBox' ) ) {
 }
 include('/metaboxes/setup.php');
 include('staff_member_posttype.php');
+include('staff_member_archive.php');
+
+//add image sizes
+if ( function_exists( 'add_theme_support' ) ) {
+	add_theme_support( 'post-thumbnails' );
+}
+
+if ( function_exists( 'add_image_size' ) ) { 
+	add_image_size( 'staff-member-single-thumbnail', 160, 236, true ); //300 pixels wide (and unlimited height)
+}
 
 class Staff_Members_Pro{
 		
@@ -26,7 +36,8 @@ class Staff_Members_Pro{
 	public function __construct(){
 		$this->add_action('init','register_posttype');
 		$this->add_action('init','enqueue_styles');
-		$this->add_filter( 'the_content', 'filter_single' ) ;
+		$this->add_filter( 'the_content', 'filter_content' ) ;
+		add_shortcode( 'staff-member-directory', array($this,'directory_shortcode'));
 	}
 
 	protected function add_action($action, $callback){
@@ -40,16 +51,31 @@ class Staff_Members_Pro{
 	public function enqueue_styles(){
 	    if ( is_admin() ) 
 	    { 
+	        wp_enqueue_style( 'jmsmp_admin_styles', JMSMP_URL.'/css/admin.css' );
+	    }
+		else{
 	        wp_enqueue_style( 'jmsmp_admin_styles', JMSMP_URL.'/css/main.css' );
 	    }
 	}
+
+	public function directory_shortcode($atts){
+		$archive = new JM_Staff_Member_Archive();
+		return $archive->return_directory();
+	}
 	
-	public function filter_single($content){
+	
+	public function filter_content($content){
 	     global $post;
+		 global $staff_member;
 	     if ($post->post_type == 'staff-member') {
 	     	
-	         $sm = new JM_Staff_Member($post);
-			 $content = $sm->get_single();
+	         $staff_member = new JM_Staff_Member($post);
+			 if(is_single())
+				$content = $staff_member->get_single();
+			 else if(is_category())
+			 	$content = $staff_member->get_category();
+			 else if(is_archive())
+			 	$content = $staff_member->get_category();
 	     }
 	     return $content;
 	}
@@ -81,10 +107,13 @@ class Staff_Members_Pro{
 			'capability_type' => 'post',
 			'hierarchical' => false,
 			'menu_position' => null,  
-			'supports' => array('thumbnail')
+			'supports' => array('title','thumbnail','editor')
 		  ); 
 	 
 		register_post_type( 'staff-member' , $args );
+		
+		remove_post_type_support( 'staff-member', 'comments'); 
+		remove_post_type_support( 'staff-member', 'author'); 
 		
 		register_taxonomy("staff-department", array( 'staff-member' ), 
 							array("hierarchical" => true, 
@@ -96,6 +125,7 @@ class Staff_Members_Pro{
 							"label" => "Roles", 
 							"singular_label" => "Role")
 						 );
+						 
 	}
 	
 }
