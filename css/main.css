@@ -1,0 +1,9 @@
+body .jmsmp_metabox input.big{
+	background-color: white;
+	border-color: #CCC;
+	padding: 3px 8px;
+	font-size: 1.7em;
+	line-height: 100%;
+	width: 100%;
+	outline: 0;
+}
